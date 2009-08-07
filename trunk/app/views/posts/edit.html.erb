@@ -1,0 +1,10 @@
+<%= page_title '글 수정' %>
+
+<% form_for(@post, :url => board_post_path(@board, @post), :method => :put, :html => { :multipart => true }) do |f| %>
+	<%= render :partial => 'form', :object => f %>
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', board_post_path(@board, @post) %>

@@ -1,0 +1,27 @@
+<%= page_title '게시판 관리' %>
+
+<table>
+	<thread>
+		<th><%= link_to '제목' %></th>
+		<th><%= link_to '게시판ID' %></th>
+		<th><%= link_to '설명' %></th>
+		<th><%= link_to '공개' %></th>
+		<th><%= link_to '첨부' %></th>
+		<th><%= link_to '글' %></th>
+		<th colspan="2"></th>
+	</thead>
+<% for board in @boards %>
+  <tr>
+    <td><%=h board.title %></td>
+    <td><%=h board.name %></td>
+    <td><%= truncate(h(board.description), 20) %></td>
+    <td><%= board.open_level %></td>
+    <td><%= board.attachable? ? 'Y' : '' %></td>
+    <td><%= board.posts_count %></td>
+    <td><%= link_to '편집', edit_admin_board_path(board) %></td>
+    <td><%= link_to '삭제', admin_board_path(board), :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= button_link_to '새 게시판', new_admin_board_path %>

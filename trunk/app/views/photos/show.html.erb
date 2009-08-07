@@ -1,0 +1,46 @@
+<% content_for :head do %>
+<%= javascript_include_tag 'jquery.jeditable' %>
+<% end %>
+<% jquery_onload do %>
+$('#photo_title').editable(
+	'<%= album_photo_path(@album, @photo) %>',
+	{
+		name: 'photo[title]',
+		method: 'PUT',
+		submit: '확인',
+		cancel: '취소',
+		placeholder: "여기를 클릭하여 이 사진의 제목을 붙여주세요..",
+		indicator: "Saving..."
+	}
+);
+<% end %>
+
+<%= page_title @album.title, :h3 %>
+
+<div id="description">
+		<span id="photo_title"><%= @photo.title %></span>
+</div>	
+
+<div id="original_photo" class="center">
+	<%= image_tag @photo.public_filename %>
+</div>
+
+<div class="float left">
+	앨범: <%= link_to @album.title, album_path(@photo.album) %>
+</div>	
+
+<div id="pagination" class="right">
+	<%#= link_to_unless_current "처음", album_photo_path(@album, @album.photos.first) unless @album.photos.empty? %>
+	<%= link_to "이전", album_photo_path(@album, @photo.previous) if @photo.previous %> |
+	<%= link_to "다음", album_photo_path(@album, @photo.next) if @photo.next %>
+	<%#= link_to_unless_current "마지막", album_photo_path(@album, @album.photos.last) unless @album.photos.empty? %>
+</div>
+
+<div id="comment_area">
+	<%= link_to_function '댓글', "add_comment('#{photo_comments_path(@photo)}')" %>
+	<div class="comment_area">
+		<%= display_comments(@photo.comments, nil, @photo.id) do |comment| 
+			render :partial => 'shared/comment', :object => comment	
+		end %>
+	</div>
+</div>		

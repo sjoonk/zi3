@@ -1,0 +1,83 @@
+<% jquery_onload do %>
+	new nicEditor({fullPanel: true, iconsPath: '/images/nicEditorIcons.gif'}).panelInstance('reply_body');
+<% end %>
+
+<%= page_title @post.title, :h3 %>
+
+<div id="summary_area">
+	<div class="float left"><%= link_to @board.title, board_posts_path(@post.board) %></div>
+	<div class="right">
+	조회수: <%= @post.view_count -%>,
+	<% if logged_in? %>
+		<%= link_to "&laquo;", 
+				board_post_path(@board, @original_post, :version => @version+1) if @original_post.versions.get(@version).next -%>
+		문서버전: <%= @version -%>
+		<%= link_to "&raquo;", 
+				board_post_path(@board, @original_post, :version => @version-1) if @original_post.versions.get(@version).previous -%>,
+	<% end %>
+	최종수정: <%= human_time(@post.updated_at) -%>
+	by <%= author_of(@post) %> |
+	<%= link_to '수정', edit_board_post_path(@board, @post) %>
+	</div>
+</div>		
+
+<div id="body_area">
+  <%= wikilize(@post.body) %>
+
+	<% unless @post.assets.empty? %>
+		<ul id="asset_list">
+			<%= render :partial => 'asset', :collection => @post.assets, :locals => { :include_download => true } %>
+		</ul>	
+	<% end %>
+</div>
+
+<div id="related_pages">
+	<% unless @related_pages.empty? %>
+	<h4>연관 글</h4>
+	<ul>
+		<% @related_pages.each do |page| %>
+			<li>
+				<%= link_to page.title, intelli_path(page) %>
+				<%= truncate(strip_tags_and_wiki(page.body), 20) %>
+				<span class="atby">
+					by <%= link_to page.user, user_path(page.user) %>
+					at <%= human_time(page.updated_at) %>
+				</span>	
+			</li>
+		<% end %>
+	</ul>	
+	<% end %>
+</div>	
+
+<div id="control_area" class="right">
+	<%= link_to '수정', edit_board_post_path(@board, @post) %> |
+	<%= link_to '목록', board_posts_path(@post.board) %>
+</div>
+
+<div id="reply_area">
+	<ul id="reply_list">
+		<%= render :partial => 'reply', :collection => @post.replies %>
+	</ul>
+		
+	<% form_for :reply, :url => post_replies_path(@post) do |f| %>
+		<%= hidden_field_tag 'reply[title]', "[Re] #{h(@post.title)}" %>
+		<%= f.text_area :body, :cols => 3 %>
+		<%#= link_to_function "Textile 도움말", "quickRedReference()", :class => 'help float left' %>
+
+		<div id="mail_noti" class="float right">
+		  <%= f.check_box :noti, :checked => false %>
+		  <%= f.label :noti, '메일 전송' %>
+		</div>
+		<div class="clear"></div>
+		<div class="right">
+			<span class="button"><%= f.submit '답글 추가' %></span>
+		</div>	
+	<% end %>
+</div>
+
+<%= render :partial => 'posts' %>
+
+
+<div id="pagination">
+	<%= will_paginate @posts %>
+</div>	

@@ -1,0 +1,17 @@
+<%= page_title @title  %>
+
+<div id="board_description" class="<%= @board.name %>">
+	<%= @board.description %>
+</div>
+
+<div id="summary_area">
+	<div class="count float left">
+	총 <%= @posts_count %>개의 글
+	</div>
+	<div class="float right">
+		<%= button_link_to '새글 작성', new_board_post_path(@board) %>
+	</div>
+	<div class="clear"></div>
+</div>
+
+<%= render :partial => 'posts' %>

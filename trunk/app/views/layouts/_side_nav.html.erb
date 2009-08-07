@@ -1,0 +1,13 @@
+<%= Menu.html %>
+
+<% if logged_in? && current_user.has_role?("admin") %>
+<ul id="admin_menu">
+	<li>관리자
+		<ul>
+			<li><%= link_to_unless_current "게시판 관리", admin_boards_path %></li>
+			<li><%= link_to_unless_current "메뉴 관리", admin_menu_path %></li>
+			<li><%= link_to_unless_current "계정 관리", admin_users_path %></li>
+		</ul>
+	</li>
+</ul>	
+<% end %>

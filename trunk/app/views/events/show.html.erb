@@ -1,0 +1,30 @@
+<%= page_title @event.title, :h3 %>
+
+<div id="summary_area" class="right">
+	<%= link_to '#', url_for %>
+	<%= link_to_function @event.versions.current.number, "alert('Version of this page!')" %>
+	<span class="atby">
+		at <%= human_time(@event.created_at) %>
+		by <%= link_to @event.user, user_path(@event.user) %>
+	</span>
+	<%= authorized_only_link_to @event, '수정', edit_event_path(@event) %>
+</div>
+
+<div id="body_area">
+	<%= wikilize(@event.body) %>
+</div>		
+
+<div id="control_area" class="right">
+	<%= link_to '삭제', event_path(@event), :method => :delete, :confirm => 'Sure?' %> |
+	<%= link_to '수정', edit_event_path(@event) %> |
+	<%= link_to '목록', events_path %>
+</div>
+
+<div id="comment_area">
+	<%= link_to_function '댓글', "add_comment('#{event_comments_path(@event)}')" %>
+	<div class="comment_area">
+		<%= display_comments(@event.comments, nil, @event.id) do |comment| 
+			render :partial => 'shared/comment', :object => comment	
+		end %>
+	</div>
+</div>

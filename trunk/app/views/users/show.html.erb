@@ -1,0 +1,25 @@
+<%= page_title "#{@user}님의 프로파일" %>
+
+<div id="avatar" class="prepend-1 span-4">
+	<%= image_tag @user.avatar.url %>
+</div>
+
+<div class="span-13 last">
+		<table id="user_profile">
+			<%= tr '성명', @user.name %>
+			<%= tr '닉네임', @user.nickname %>
+			<%= tr '이메일', @user.email.gsub(/@/,' (at) ').gsub(/\./, ' (dot) ') %>
+			<%= tr '휴대폰', @user.phone %>
+			<%= tr '메신저', @user.messenger %>
+			<%= tr '홈페이지', link_to(@user.homepage, @user.homepage) %>
+			<tr>
+				<td>자기소개</td>
+				<td class="justify"><%= @user.memo %></td>
+			</tr>
+		</table>		
+</div>
+
+<div class="span-18 last">
+<%= page_title "최근 게시물", :h3 %>
+<%= render :partial => 'posts/posts' %>
+</div>

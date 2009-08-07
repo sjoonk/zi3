@@ -1,0 +1,3 @@
+PostMailer#notify
+
+Find me in app/views/post_mailer/notify.erb

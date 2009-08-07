@@ -1,0 +1,6 @@
+<li>
+	<%= link_to asset.filename, asset_path(asset, :anchor => asset.filename), :class => 'file' %>
+	<% if include_download %>
+		[<%= link_to '다운로드', download_asset_path(asset) %>]
+	<% end %>	
+</li>

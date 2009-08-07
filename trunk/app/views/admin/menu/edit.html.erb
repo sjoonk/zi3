@@ -1,0 +1,6 @@
+<%= page_title '메뉴 편집' %>
+
+<% form_tag '/admin/menu/save' do %>
+	<%= text_area_tag 'menu_text', @text, :class => 'autogrow' %>
+	<%= submit_tag %>
+<% end %>	

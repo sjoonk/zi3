@@ -1,0 +1,76 @@
+<% content_for :head do %>
+	<%= javascript_include_tag 'jquery.validate' %>
+	<script type="text/javascript" charset="utf-8">
+		$(function(){
+			$('#new_user').validate({
+				success: function(label) { 
+	        // set   as text for IE 
+	        label.html(" ").addClass("checked"); 
+        }
+			});
+		})
+	</script>
+<% end %>
+
+<%= page_title "내 프로파일" %>
+
+<div id="avatar" class="prepend-1 span-4">
+	<%= image_tag @user.avatar.url %>
+</div>
+
+<div class="span-13 last">
+	<% form_for(@user, :html => { :multipart => true }) do |f| -%>
+		<%= error_messages_for :user %>
+		<table>
+			<tr>
+				<td><%= f.label :login, '로그인ID' %></td>
+				<td><%= f.text_field :login, :disabled => true %></td>
+			</tr>
+			<tr>
+				<td><%= f.label :name, '성명' %></td>
+				<td><%= f.text_field :name %></td>
+			</tr>
+			<tr>
+				<td><%= f.label :nickname, '닉네임' %></td>
+				<td><%= f.text_field :nickname %></td>
+			</tr>
+			<tr>
+				<td><%= f.label :avatar, '사진' %></td>
+				<td><%= f.file_field :avatar %></td>
+			</tr>
+			<tr>
+				<td><%= f.label :email, '이메일' %></td>
+				<td><%= f.text_field :email, :class => 'required email' %></td>
+			</tr>
+			<tr>
+				<td><%= f.label :phone, '휴대폰' %></td>
+				<td><%= f.text_field :phone %></td>
+			</tr>
+			<tr>
+				<td><%= f.label :messenger, '메신저' %></td>
+				<td><%= f.text_field :messenger %></td>
+			</tr>
+			<tr>
+				<td><%= f.label :homepage, '홈페이지' %></td>
+				<td><%= f.text_field :homepage %></td>
+			</tr>
+
+			<tr>
+				<td><%= f.label :memo, '자기소개' %></td>
+				<td><%= f.text_area :memo, :cols => 40, :rows => 4, :class => 'autogrow' %></td>
+			</tr>
+			
+			<tr>
+				<td><%= f.label :password, '비밀번호' %></td>
+				<td><%= f.password_field :password, :class => 'required' %></td>
+			</tr>
+			<tr>
+				<td><%= f.label :password_confirmation, '비밀번호(확인)' %></td>
+				<td><%= f.password_field :password_confirmation, :class => 'required', :equalTo => '#user_password' %></td>
+			</tr>
+		</table>		
+		<p>	
+			<%= f.submit '변경하기' %>
+		</p>	
+	<% end %>	
+</div>	

@@ -1,0 +1,12 @@
+<%= page_title '블로그' %>
+
+<p>
+	이곳에 게시된 글은 모든 인터넷 사용자에게 공개됩니다.<br/>
+	블로그 레이아웃은 layouts/blog.html 파일을 편집하여 자유롭게 변경할 수 있습니다.
+</p>	
+
+<ul>
+<% @pages.each do |page| %>
+	<li><%= link_to page.title, blog_entry_path(page.id) %></li>
+<% end %>	
+</ul>
