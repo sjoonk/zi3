@@ -1,0 +1,35 @@
+<% content_for :head do %>
+	<%= javascript_include_tag 'jquery.Multifile' %>
+<% end %>	
+<% jquery_onload do %>
+	$('#assets_upload').MultiFile();
+	$('form input[type=text]:first').focus();
+<% end %>
+
+<% form_for @page do |form| %>
+	<%= form.error_messages %>
+	<p>
+	  <%= form.label :title, '제목' %><br />
+	  <%= form.text_field :title, :size => 70 %>
+	</p>
+	<p>
+	  <%= form.label :name, '페이지ID' %>
+	  <%= form.text_field :name %>
+	</p>
+	 <%= form.label :body, '본문' %><br />
+	 <%= form.text_area :body, :class => 'autogrow' %>
+	<p>
+		<%= label_tag :uploaded_assets, '파일첨부' %>
+		<%= file_field_tag 'page[uploaded_assets][]', :id => 'assets_upload', :class => 'multi' %>
+	</p>	
+	<p>
+		<%= form.check_box :blogging, :checked => false %>
+		<%= form.label :blogging, '블로그 공개' %>
+		<%= form.check_box :collaborable %>
+		<%= form.label :collaborable, '공동 편집' %>
+	</p>
+	<%= form.submit %>
+	<%= link_to 'Cancel', :back %>
+<% end %>
+
+

@@ -1,0 +1,4 @@
+<li>
+	<%= render :partial => 'shared/comment', :object => comment_li %>
+	<ul class="comments" id="<%= "comment_#{comment.commentable.id}_#{comment.id}" %>"/>
+</li>	

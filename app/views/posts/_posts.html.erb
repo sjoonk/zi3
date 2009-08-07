@@ -1,0 +1,17 @@
+<table id="post_list">
+<% for post in @posts %>
+  <tr>
+    <td class="title">
+			<% post_link = post.board ? board_post_path(post.board, post) : page_path(post) %>
+			<%= link_to_unless_current truncate(h(post.title), 45), post_link %>
+			<% unless post.replies.empty? %>
+				<span class="reply"><%= post.replies.size %></span>
+			<% end %>	
+		</td>
+		<% unless controller.controller_name == 'users' %>
+			<td class="author"><%= author_of(post) %></td>
+		<% end %>	
+		<td class="created_on"><%= human_time(post.created_at) %></td>
+  </tr>
+<% end %>
+</table>

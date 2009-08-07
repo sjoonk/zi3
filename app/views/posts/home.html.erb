@@ -1,0 +1,122 @@
+<div class="span-12">
+
+	<%= page_title 'Home' %>
+
+<h3> 
+	<span class="current" onclick="$('#recent_posts').show();$('#popular_posts').hide();$(this).addClass('current').siblings().removeClass('current')">최근 게시글</span> |
+	<span onclick="$('#recent_posts').hide();$('#popular_posts').show();$(this).addClass('current').siblings().removeClass('current')">인기 게시글</span>
+</h3>
+
+<div id="recent_posts">
+	<ul>
+	<% @posts.each do |post| %>
+	<li class="board_<%= post.board.name %>">
+		<%= link_to h(post.title), board_post_path(post.board, post) %>
+		<span class="atby">
+			by <%= author_of(post) %> 
+			<!--at <%= human_time(post.created_at) %>-->
+		</span>	
+	</li>
+	<% end %>
+	</ul>
+</div>
+
+<div id="popular_posts" class="hidden">
+	<ul>
+	<% @popular_posts.each do |post| %>
+		<li>
+			<%= link_to h(post.title), board_post_path(post.board, post) %>
+			<span class="atby">
+				by <%= author_of(post) %> 
+				<!--at <%= human_time(post.created_at) %>-->
+			</span>	
+		</li>
+	<% end %>
+	</ul>
+</div>
+
+<h3>최근 답글</h3>
+<ul id="recent_replied_posts">
+<% @replies.each do |reply| %>
+	<li class="justify">
+		<%= link_to h(reply.post.title), board_post_path(reply.post.board, reply.post, :anchor => "reply-#{reply.id}") %>
+		<span class="excerpt"><%= truncate(strip_tags(reply.body), 50) %></span>
+	</li>
+<% end %>
+</ul>
+
+</div>
+
+<div class="span-7 last">
+	
+<div class="calendar">
+	<div class="right">
+		<%= link_to "&laquo;", url_for(:time => @time.months_ago(1)) %>
+		<span class="month"><%= @time.year %>년 <%= @time.month %>월</span>
+		<%= link_to "&raquo;", url_for(:time => @time.months_since(1)) %>
+	</div>	
+	<table>
+		<% days_array(@time, true).in_groups_of(14) do |group| %>
+		<tr>
+			<% group.each_with_index do |day, idx| %>
+				<td class="day"><%= taggings_for(@time, day, @events) %></td>
+			<% end %>
+		</tr>	
+		<% end %>
+	</table>	
+
+	<div id="event_area">
+		<% @events.group_by { |event| event.date.to_time.day }.each do |day, events| %>
+		<ul id="event_<%= day %>" class="events" style="<%= 'display: none;' unless day == Time.today.day %>">
+			<% events.each do |event| %>
+				<li class="event">v <%= event.date.to_s(:khm) %> <%= link_to event.title, event_path(event) %> </li>
+			<% end %>	
+		</ul>	
+		<% end %>
+	</div>	
+</div>
+
+	
+<h3>오늘의 한마디</h3>
+<ul id="recent_notes">	
+	<% @notes.each do |note| %>
+		<li>
+			<%= truncate(strip_tags(note.body), 100) %>
+			<span class="atby">
+				by <%= link_to note.user, user_path(note.user) %> 
+				at <%= human_time(note.created_at) %>
+				<%#= link_to '#', note_path(note) %>
+			</span>	
+			<div class="clear"></div>
+		</li>
+	<% end %>
+</ul>	
+<div class="right more"><%= link_to "더보기..", notes_path %></div>
+</div>	
+
+<div class="span-19 last">
+<h3>최근 사진과 자료들</h3>
+
+<div class="span-10">
+	<ul id="photo_list">
+		<% @photos.each do |photo| %>
+		<li>
+	    <div class="photo thumb float left">
+				<%= link_to photo_thumbnail(photo), album_photo_path(photo.album, photo) %>
+			</div>
+		</li>	
+		<% end %>
+	</ul>	
+	<div class="clear"></div>
+	<span class="more"><%= link_to '더보기..', albums_path %></span>
+</div>
+
+<div class="span-9 last">
+	<ul id="asset_list">
+		<%= render :partial => 'asset', :collection => @assets, :locals => {:include_download => false} %>
+	</ul>
+	<div class="clear"></div>
+	<span class="more"><%= link_to '더보기..', '/archive' %></span>
+</div>
+
+</div>	

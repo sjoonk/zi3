@@ -1,0 +1,11 @@
+<ul id="top_menu" class="float right">
+	<% if logged_in? %>
+		<li><%= link_to current_user, user_path(current_user) %>님</li>
+		|<li><%= link_to '로그아웃', logout_path %></li>
+	<% else %>
+		<li><%= link_to '로그인', login_path %></li>
+		|<li><%= link_to '신규가입', signup_path %></li>
+	<% end %>
+</ul>
+	
+	

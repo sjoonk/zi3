@@ -1,0 +1,18 @@
+<%= page_title '자기소개' %>
+
+<ul id="user_list">
+<% @users.each do |user| %>
+	<li>
+		<div class="avatar thumb float left">
+			<%= image_tag(user.avatar(:thumb)) %>
+		</div>	
+		<div><%= link_to user, user_path(user) %></div>
+		<div class="memo justify"><%= user.memo %></div>
+		<div class="clear"></div>
+	</li>
+<% end %>
+</ul>	
+
+<div id="pagination">
+	<%= will_paginate @users %>
+</div>	

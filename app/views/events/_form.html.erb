@@ -1,0 +1,24 @@
+<% form_for @event do |form| %>
+	<%= form.error_messages %>
+	<p>
+	  <%= form.label :title, '제목' %><br />
+	  <%= form.text_field :title, :size => 70 %>
+	</p>
+	<p>
+		<%= label_tag :started_at, '일시: ' %>
+	  <%= datetime_select :event, :started_at, 
+											{ :use_month_numbers => true, :minute_step => 15, :twelve_hour => true } %>
+	</p>
+	 <%= form.label :body, '상세내역' %><br />
+	 <%= form.text_area :body, :class => 'autogrow' %>
+	<p>
+		<%= form.check_box :blogging, :checked => false %>
+		<%= form.label :blogging, '블로그 공개' %>
+		<%#= form.check_box :collaborable %>
+		<%#= form.label :collaborable, '공동 편집' %>
+	  <%= form.check_box :noti, :checked => false %>
+	  <%= form.label :noti, '메일 전송' %>
+	</p>
+	<%= form.submit %>
+	<%= link_to 'Cancel', :back %>
+<% end %>	

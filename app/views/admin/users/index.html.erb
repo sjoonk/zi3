@@ -1,0 +1,29 @@
+<%= page_title '계정 관리' %>
+
+<table>
+	<thead>
+		<th><%= link_to '사용자' %></th>
+		<th><%= link_to '로그인ID' %></th>
+		<th><%= link_to '성명' %></th>
+		<th><%= link_to '상태' %></th>
+		<th><%= link_to '글' %></th>
+		<th><%= link_to '신규가입' %></th>
+		<th><%= link_to '최근 로그인' %></th>
+		<th><%= role_list %></th>
+	</thead>	
+	<% @users.each do |user| %>
+	<tr>
+		<td><%= link_to user, user_path(user) %></td>
+		<td><%= user.login %></td>
+		<td><%= user.name %></td>
+		<td id="user_<%= user.id %>_state"><%= select_state(user) %></td>
+		<td class="center"><%= user.posts.count %></td>
+		<td><%= human_time(user.created_at) %></td>
+		<td><%= human_time(user.last_login_at) if user.last_login_at %></td>
+		<td><%= check_roles(user) %></td>
+	</tr>
+	<% end %>
+</table>
+
+<div id="indicator" class="center hidden"><%= image_tag 'pleasewait.gif' %></div>
+

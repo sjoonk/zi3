@@ -1,0 +1,15 @@
+<%= page_title '새 앨범' %>
+
+<% form_for @album do |f| %>
+
+	<%= f.error_messages %>
+	<p>
+	  <%= f.label :title, '제목' %><br />
+	  <%= f.text_field :title, :size => 70 %>
+	</p>
+
+	 <%= f.label :description, '간략한 설명' %><br />
+	 <%= f.text_area :description, :rows => 3 %>
+
+	<%= f.submit '앨범 만들기' %>
+<% end %>	

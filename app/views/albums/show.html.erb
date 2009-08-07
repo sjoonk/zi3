@@ -1,0 +1,46 @@
+<% content_for :head do %>
+	<%= javascript_include_tag 'jquery.Multifile' %>
+<% end %>	
+<% jquery_onload do %>
+$('#photo_upload').MultiFile({ 
+	accept:'gif|jpg', 
+	STRING: { 
+		remove:'삭제', 
+		denied:'확장자가 $ext인 파일은 선택할 수 없습니다!', 
+		duplicate:'$file는 이미 선택한 파일입니다.' 
+	} 
+});
+	//$('#photo_upload').MultiFile();
+<% end %>
+
+<%= page_title @album.title, :h3 %>
+
+<div id="description">
+	<%= @album.description %>
+</div>	
+
+<div id="photo_area">
+	<ul id="photo_list">
+	<%= empty_msg @photos, '이 앨범에 사진을 올리는 첫 번째 사용자가 되세요.' %>	
+	<% @photos.each do |photo| %>
+		<li><%= link_to image_tag(photo.public_filename(:thumb)), album_photo_path(@album, photo) %></li>
+	<% end %>
+	</ul>
+	<div id="pagination" class="right">
+		<%= will_paginate @photos %>
+	</div>
+</div>
+
+<hr/>
+
+<% form_for @album, :html => { :multipart => true } do |f| %>
+	<p>
+	<%= label_tag :photos, '사진추가' %>	
+	<span class="hint"><%#= attachment_hint(@album.photos) %></span>
+	<%= file_field_tag 'photos[]', :id => 'photo_upload' %>
+	</p>
+	<p>
+		<%= f.submit '업로드 하기' %>
+		<%= link_to '앨범 목록', albums_path %>
+	</p>	
+<% end %>	

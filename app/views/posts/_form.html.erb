@@ -1,0 +1,44 @@
+<% content_for :head do %>
+	<%= javascript_include_tag 'jquery.Multifile' %>
+<% end %>	
+<% jquery_onload do %>
+	new nicEditor({fullPanel: true, iconsPath: '/images/nicEditorIcons.gif'}).panelInstance('post_body');
+	$('#assets_upload').MultiFile();
+<% end %>
+
+<%= form.error_messages %>
+<p>
+	<%= form.label :title, '제목' %><br />
+	<%= form.text_field :title, :size => 70 %>
+</p>
+<p>	
+	<%#= form.label :body, '본문' %>
+	<%= form.text_area :body %>
+	<%#= link_to_function "Textile 도움말", "quickRedReference()", :class => 'help left' %>
+</p>	
+
+<ul id="asset_list">
+	<%= render :partial => 'asset', :collection => @post.assets %>
+</ul>
+
+<% if @board.attachable? %>
+	<p>
+		<%= label_tag :uploaded_assets, '파일첨부' %>
+		<%= file_field_tag 'post[uploaded_assets][]', :id => 'assets_upload', :class => 'multi' %>
+	</p>	
+<% end %>
+
+
+<p>
+	<% unless @board.is_public? && !logged_in? %>
+		<%= form.check_box :blogging %>
+		<%= form.label :blogging, '블로그 공개' %>
+	  <%= form.check_box :noti, :checked => true %>
+	  <%= form.label :noti, '메일로 전송' %>
+	<% else %>
+		<%= form.label :visitor, '작성자' %>
+		<%= form.text_field :visitor, :size => 12 %>
+		<%= form.check_box :im_human %>
+		<%= form.label :im_human, '사람이면 체크!' %>
+	<% end %>
+</p>

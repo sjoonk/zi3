@@ -1,0 +1,12 @@
+development: &non_production_settings
+  site_url: http://localhost:3000
+  site_name: Yoursite
+  admin_email: admin@yoursite.com
+  
+test:
+  <<: *non_production_settings
+  
+production:
+  site_url: http://yoursite.com
+  site_name: Yoursite
+  admin_email: admin@yoursite.com

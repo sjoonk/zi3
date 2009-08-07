@@ -1,0 +1,15 @@
+<li id="reply-#{reply.id}" class="reply">
+	<div class="summary right">
+		<%= link_to '#', board_post_path(@board, reply.post, :anchor => "reply-#{reply.id}") %>
+		Posted: <%= human_time(reply.created_at) %>
+		by <%= link_to reply.user, user_path(reply.user) %>
+		<% if reply.user == current_user %>
+			<!-- TODO -->
+			<%= link_to_function image_tag('delete.gif'), "alert('죄송합니다, 현재 개발중입니다')" %>
+			<%#= link_to 'x', post_reply_path(reply.post, reply), :method => :delete, :confirm => '삭제할까요?' %>
+		<% end %>	
+	</div>
+	<div class="body">
+		<%= reply.body %>
+	</div>	
+</li>

@@ -1,0 +1,27 @@
+<%= page_title "캘린더" %>
+
+<div class="float left">
+	<%= link_to "&laquo;", url_for(:time => @time.months_ago(1)) %>
+	<span class="month"><%= @time.year %>년 <%= @time.month %>월</span>
+	<%= link_to "&raquo;", url_for(:time => @time.months_since(1)) %>
+</div>	
+
+<div class="right">
+	<%= button_link_to '새 이벤트', new_event_path %>
+</div>
+
+<div id="event_area">
+<% @events.each do |date, events| %>
+<div class="event <%= 'today' if date == Date.today %>">
+	<div class="date">
+		<%= date.day %>
+	</div>
+	<ul>
+		<% events.each do |event| %>
+			<li><%= event.date.to_s(:khm) %> <%= link_to event.title, event_path(event) %></li>
+		<% end %>
+	</ul>	
+	<div class="clear"></div>
+</div>		
+<% end %>
+</div>

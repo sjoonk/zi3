@@ -1,0 +1,10 @@
+<div>
+	<%= strip_tags(comment.text) %>
+	<span class="atby"> 
+		by <%= comment.user ? link_to(comment.user, user_path(comment.user)) : link_to('손님') %>
+		at <%= human_time(comment.created_at) %>
+	</span>	
+	[<%= link_to_function 'RE', 
+			 "add_comment('/#{comment.commentable_name}/#{comment.commentable.id}/comments', #{comment.id})" %>]
+	<%= image_tag 'wait.gif', :id => "wait_#{comment.id}", :class => 'wait hidden' %>
+</div>

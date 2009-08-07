@@ -1,0 +1,46 @@
+<%= page_title @page.title, :h3 %>
+
+<% if logged_in? %>
+	<div id="summary_area" class="right">
+		<div class="float left"><%= link_to '페이지 홈', pages_path %></div>
+		<%#= link_to '#', url_for %>
+		<%#= link_to_function @page.versions.current.number, "alert('Version of this page!')" if logged_in? %>
+		<span class="atby">
+			at <%= human_time(@page.created_at) %>
+			by <%= link_to @page.user, user_path(@page.user) %>
+		</span>
+		<%= authorized_only_link_to @page, '수정', edit_page_path(@page) %>
+	</div>
+<% end %>
+
+<div id="body_area">
+	<%= wikilize(@page.body) %>
+</div>		
+
+<% unless @related_pages.empty? %>
+	<div id="related_pages">
+	<h4>연관글</h4>
+	<ul>
+		<% @related_pages.each do |page| %>
+			<li>
+				<%= link_to page.title, page_path(page) %>
+				<span class="excerpt"><%= truncate(strip_tags_and_wiki(page.body), 30) %></span>
+				<span class="atby">
+					by <%= link_to page.user, user_path(page.user) %>
+					at <%= human_time(page.updated_at) %>
+				</span>	
+			</li>
+		<% end %>
+	</ul>	
+	</div>	
+<% end %>
+
+<div id="comment_area">
+	<%= link_to_function '댓글', "add_comment('#{page_comments_path(@page.id)}')" %>
+	<div class="comment_area">
+		<%= display_comments(@page.comments, nil, @page.id) do |comment| 
+			render :partial => 'shared/comment', :object => comment	
+		end %>
+	</div>
+</div>	
+

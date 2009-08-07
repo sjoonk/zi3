@@ -1,0 +1,41 @@
+<% jquery_onload do %>
+	$('#note_area .note').corner();
+<% end %>
+
+<%= page_title '오늘의 한마디' %>
+
+<% if logged_in? %>
+	<% form_for :note, :url => notes_path do |f| %>
+		<%= f.text_field :body, :size => 85 %>
+		<span class="button"><%= f.submit '추가' %></span>
+	<% end %>
+<% end %>
+
+<div id="note_area">
+	<% @grouped_notes.each do |date, notes| %>
+		<div class="date"><%= date == Date.today ? '오늘' : date %></div>
+		<% notes.each do |note| %>
+			<div class="avatar_thumb float left">	
+				<%= image_tag note.user.avatar.url(:thumb) %>
+			</div>		
+			<div class="note" id="note_<%= note.id %>">
+				<div class="atby right">
+					by <%= link_to note.user, user_path(note.user) %>
+					at <%= note.created_at.to_s(:khm) %> |
+					<%= link_to_function "댓글", "add_comment('#{note_comments_path(note)}')" if logged_in? %>
+				</div>
+				<div class="note_body">	
+					<%= strip_tags(note.body) %>
+				</div>	
+				<div class="comment_area prepend-1">
+					<%= display_comments(note.comments, nil, note.id) do |comment| 
+						render :partial => 'shared/comment', :object => comment	
+					end %>
+				</div>
+			</div>
+			<div class="clear"></div>	
+		<% end %>
+	<% end %>
+</div>		
+		
+<%= will_paginate @notes %>
