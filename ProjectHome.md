@@ -1,0 +1,5 @@
+The 'zi3' is an open source online-community builder for small & medium-scale communities and/or teams.
+
+It originally was created for building [volunteers' community of Creative Commons Korea](http://vc.cckorea.org/).
+
+[More about](http://thinkr.egloos.com/2393252). (Korean Language)
